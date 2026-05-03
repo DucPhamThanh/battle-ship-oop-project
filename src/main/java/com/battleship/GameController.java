@@ -13,6 +13,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+import java.util.List;
+
 public class GameController {
 
     @FXML private GridPane playerBoardUI;
@@ -177,20 +179,39 @@ public class GameController {
     }
 
     private void updateCellVisual(StackPane cell, CellState state, boolean showShips, Board board, int x, int y) {
+        // 1. Clear previous classes and reset rotation
         cell.getStyleClass().removeAll("cell-water", "cell-ship", "cell-hit", "cell-miss", "cell-sunk",
-                "ship-carrier", "ship-battleship", "ship-cruiser", "ship-submarine", "ship-destroyer");
+                "ship-carrier", "ship-battleship", "ship-cruiser", "ship-submarine", "ship-destroyer",
+                "ship-horizontal", "ship-vertical");
+        cell.getStyleClass().removeIf(s -> s.startsWith("ship-part-") || s.startsWith("ship-size-"));
+        cell.setRotate(0);
 
+        // 2. Render Ship Layer (if visible or already hit/sunk)
+        Ship ship = board.getShipAt(x, y);
+        boolean shipVisible = ship != null && (showShips || state == CellState.HIT || state == CellState.SUNK);
+
+        if (shipVisible) {
+            cell.getStyleClass().add("ship-" + ship.getName().toLowerCase());
+            cell.setRotate(ship.isVertical() ? 0 : -90);
+            
+            List<int[]> positions = ship.getPositions();
+            for (int i = 0; i < positions.size(); i++) {
+                if (positions.get(i)[0] == x && positions.get(i)[1] == y) {
+                    cell.getStyleClass().add("ship-part-" + i);
+                    cell.getStyleClass().add("ship-size-" + ship.getSize());
+                    break;
+                }
+            }
+        } else {
+            cell.getStyleClass().add("cell-water");
+        }
+
+        // 3. Render Status Indicators (Hit/Miss/Sunk)
         switch (state) {
-            case WATER: cell.getStyleClass().add("cell-water"); break;
-            case SHIP:
-                if (showShips) {
-                    Ship ship = board.getShipAt(x, y);
-                    cell.getStyleClass().add(ship != null ? "ship-" + ship.getName().toLowerCase() : "cell-ship");
-                } else cell.getStyleClass().add("cell-water");
-                break;
             case HIT: cell.getStyleClass().add("cell-hit"); break;
-            case SUNK: cell.getStyleClass().add("cell-sunk"); break;
             case MISS: cell.getStyleClass().add("cell-miss"); break;
+            case SUNK: cell.getStyleClass().add("cell-sunk"); break;
+            default: break;
         }
     }
 
