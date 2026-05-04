@@ -9,7 +9,7 @@ import java.util.List;
 public class PlacementManager {
     private int currentShipIndex = 0;
     private final int[] shipSizes = { 5, 4, 3, 3, 2 };
-    private final String[] shipNames = { "Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer" };
+    private final String[] shipNames = { "Battleship", "Destroyer", "PatrolBoat", "RescueShip", "Plane" };
     private final List<int[]> currentSelection = new ArrayList<>();
 
     public void reset() {

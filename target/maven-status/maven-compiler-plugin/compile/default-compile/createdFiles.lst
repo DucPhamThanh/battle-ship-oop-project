@@ -1,9 +1,0 @@
-com\battleship\model\Board.class
-com\battleship\model\CellState.class
-com\battleship\GameController.class
-com\battleship\logic\BotAI.class
-com\battleship\model\Ship.class
-com\battleship\logic\PlacementManager.class
-com\battleship\App.class
-com\battleship\GameController$1.class
-com\battleship\logic\GameEngine.class

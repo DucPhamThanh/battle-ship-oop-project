@@ -9,9 +9,14 @@ public class GameEngine {
     private Board enemyBoard;
     private boolean playerTurn;
     private boolean gameOver;
+    private java.util.List<GameEventListener> listeners = new java.util.ArrayList<>();
 
     public GameEngine() {
         reset();
+    }
+
+    public void addListener(GameEventListener listener) {
+        listeners.add(listener);
     }
 
     public void reset() {
@@ -24,7 +29,7 @@ public class GameEngine {
 
     private void setupEnemyShips() {
         int[] sizes = { 5, 4, 3, 3, 2 };
-        String[] names = { "Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer" };
+        String[] names = { "Battleship", "Destroyer", "PatrolBoat", "RescueShip", "Plane" };
         java.util.Random random = new java.util.Random();
 
         for (int i = 0; i < sizes.length; i++) {
@@ -40,15 +45,26 @@ public class GameEngine {
 
     public boolean processShot(Board board, int x, int y) {
         CellState state = board.getCellState(x, y);
+        boolean hit = false;
         if (state == CellState.SHIP) {
             board.setCellState(x, y, CellState.HIT);
             Ship ship = board.getShipAt(x, y);
-            if (ship != null) ship.hit();
-            return true;
+            if (ship != null) {
+                ship.hit();
+                if (ship.isSunk()) {
+                    markShipAsSunk(board, ship);
+                    listeners.forEach(l -> l.onShipSunk(board, ship));
+                }
+            }
+            hit = true;
         } else {
             board.setCellState(x, y, CellState.MISS);
-            return false;
+            hit = false;
         }
+        
+        boolean finalHit = hit;
+        listeners.forEach(l -> l.onShotProcessed(board, x, y, finalHit));
+        return hit;
     }
 
     public void markShipAsSunk(Board board, Ship ship) {
@@ -57,11 +73,23 @@ public class GameEngine {
         }
     }
 
+    public void notifyStatus(String message) {
+        listeners.forEach(l -> l.onStatusChanged(message));
+    }
+
+    public void endGame(String message) {
+        gameOver = true;
+        listeners.forEach(l -> l.onGameOver(message));
+    }
+
     // Getters and Setters
     public Board getPlayerBoard() { return playerBoard; }
     public Board getEnemyBoard() { return enemyBoard; }
     public boolean isPlayerTurn() { return playerTurn; }
-    public void setPlayerTurn(boolean playerTurn) { this.playerTurn = playerTurn; }
+    public void setPlayerTurn(boolean playerTurn) { 
+        this.playerTurn = playerTurn; 
+        listeners.forEach(l -> l.onTurnChanged(playerTurn));
+    }
     public boolean isGameOver() { return gameOver; }
     public void setGameOver(boolean gameOver) { this.gameOver = gameOver; }
 }
