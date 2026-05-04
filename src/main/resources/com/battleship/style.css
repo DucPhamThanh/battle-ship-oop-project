@@ -85,11 +85,11 @@
     -fx-background-color: transparent;
 }
 
-.ship-carrier { -fx-background-image: url("assets/carrier.png"); }
 .ship-battleship { -fx-background-image: url("assets/battleship.png"); }
-.ship-cruiser { -fx-background-image: url("assets/cruiser.png"); }
-.ship-submarine { -fx-background-image: url("assets/submarine.png"); }
 .ship-destroyer { -fx-background-image: url("assets/destroyer.png"); }
+.ship-patrolboat { -fx-background-image: url("assets/patrol.png"); }
+.ship-rescueship { -fx-background-image: url("assets/rescue.png"); }
+.ship-plane { -fx-background-image: url("assets/plane.png"); }
 
 /* Background sizing based on ship size (Always vertical in local cell space) */
 .ship-size-5 { -fx-background-size: 100% 500%; }
