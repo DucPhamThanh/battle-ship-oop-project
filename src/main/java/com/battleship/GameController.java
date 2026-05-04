@@ -12,7 +12,10 @@ import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+
+import java.util.List;
 
 public class GameController implements GameEventListener {
 
@@ -174,7 +177,7 @@ public class GameController implements GameEventListener {
         } else {
             enemyRenderer.refresh(board);
         }
-
+        
         if (hit) {
             String shooter = (board == engine.getEnemyBoard()) ? "Bạn" : "Bot";
             updateStatus(shooter + " đã bắn trúng!");
@@ -190,7 +193,9 @@ public class GameController implements GameEventListener {
 
     @Override
     public void onTurnChanged(boolean isPlayerTurn) {
-        // Handled via onStatusChanged mostly
+        // Thông báo lượt chơi
+        if (isPlayerTurn) updateStatus("Lượt của bạn!");
+        else updateStatus("Lượt của Bot...");
     }
 
     @Override
@@ -201,6 +206,41 @@ public class GameController implements GameEventListener {
     @Override
     public void onStatusChanged(String message) {
         updateStatus(message);
+    }
+
+    private void refreshBoardUI(GridPane gridUI, Board board, boolean showShips) {
+        gridUI.getChildren().forEach(node -> {
+            Integer nx = GridPane.getColumnIndex(node), ny = GridPane.getRowIndex(node);
+            if (nx != null && ny != null) {
+                updateCellVisual((StackPane) node, board.getCellState(nx, ny), showShips, board, nx, ny);
+                if (showShips && placementManager.isAlreadySelected(nx, ny)) {
+                    node.getStyleClass().add("cell-placement-selected");
+                }
+            }
+        });
+    }
+
+    private void updateCellVisual(StackPane cell, CellState state, boolean showShips, Board board, int x, int y) {
+        cell.getStyleClass().removeAll("cell-water", "cell-ship", "cell-hit", "cell-miss", "cell-sunk",
+                "ship-carrier", "ship-battleship", "ship-cruiser", "ship-submarine", "ship-destroyer");
+
+        switch (state) {
+            case WATER: cell.getStyleClass().add("cell-water"); break;
+            case SHIP:
+                if (showShips) {
+                    Ship ship = board.getShipAt(x, y);
+                    cell.getStyleClass().add(ship != null ? "ship-" + ship.getName().toLowerCase() : "cell-ship");
+                } else cell.getStyleClass().add("cell-water");
+                break;
+            case HIT: cell.getStyleClass().add("cell-hit"); break;
+            case SUNK: cell.getStyleClass().add("cell-sunk"); break;
+            case MISS: cell.getStyleClass().add("cell-miss"); break;
+        }
+    }
+
+    private void endGame(String message) {
+        engine.setGameOver(true);
+        statusLabel.setText("GAME OVER: " + message);
     }
 
     @FXML
