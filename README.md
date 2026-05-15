@@ -47,11 +47,12 @@ Mở Terminal (Mac/Linux) hoặc Command Prompt/Git Bash (Windows), chọn thư 
 git clone https://github.com/DucPhamThanh/battle-ship-oop-project.git
 ```
 
-### Bước 2: Di chuyển vào thư mục gốc của dự án
-
+### Bước 2: Di chuyển vào thư mục gốc và chuyển nhánh
 ```bash
 cd battle-ship-oop-project
+git checkout feature
 ```
+*Lưu ý: Các tính năng mới nhất hiện đang nằm ở nhánh `feature`.*
 
 ### Bước 3: Build và Chạy ứng dụng
 
@@ -63,7 +64,7 @@ Bạn chỉ cần đứng ở thư mục gốc (nơi chứa file `pom.xml`) và 
 ```bash
 mvn clean javafx:run
 ```
-*Lệnh này sẽ tự động dọn dẹp, tải các thư viện JavaFX cần thiết về máy và mở cửa sổ game lên.*
+*Lệnh này sẽ tự động dọn dẹp bản build cũ, tải các thư viện JavaFX cần thiết và mở cửa sổ game lên.*
 
 #### Cách 2: Sử dụng IDE (Ví dụ: IntelliJ IDEA)
 1. Mở IntelliJ IDEA, chọn **Open**.
@@ -71,3 +72,16 @@ mvn clean javafx:run
 3. Chờ một lúc để IDE tự động nhận diện cấu hình Maven và tải các dependencies (góc dưới cùng bên phải màn hình hiển thị tiến trình sync).
 4. Mở cấu trúc thư mục bên trái, tìm đến file chạy chính theo đường dẫn: `src/main/java/com/battleship/App.java`.
 5. Click chuột phải vào file `App.java` và chọn **Run 'App.main()'** (Hoặc ấn nút tam giác xanh bên cạnh hàm `main`).
+
+---
+
+## 🎮 Tính năng nổi bật (Features)
+
+Dự án hiện đã tích hợp hệ thống AI thông minh với 3 cấp độ thử thách:
+
+1.  **Chế độ Dễ (Easy):** Bot bắn ngẫu nhiên hoàn toàn, phù hợp để làm quen game.
+2.  **Chế độ Trung bình (Medium):** Bot sử dụng thuật toán **Ô bàn cờ (Parity)** và tự động truy đuổi theo trục của tàu ngay khi phát hiện mục tiêu.
+3.  **Chế độ Khó (Hard):** Kế thừa trí thông minh của chế độ Trung bình nhưng Bot được trang bị thêm **"Quyền lợi 2 lượt bắn"** (Chỉ mất lượt sau khi trượt 2 phát liên tiếp), cực kỳ thử thách.
+
+---
+*Chúc bạn có những giờ phút giải trí vui vẻ với Battleship!*

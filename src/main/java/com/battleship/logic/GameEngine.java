@@ -3,17 +3,14 @@ package com.battleship.logic;
 import com.battleship.model.Board;
 import com.battleship.model.CellState;
 import com.battleship.model.Ship;
+import java.util.*;
 
 public class GameEngine {
     private Board playerBoard;
     private Board enemyBoard;
     private boolean playerTurn;
     private boolean gameOver;
-    private java.util.List<GameEventListener> listeners = new java.util.ArrayList<>();
-
-    public GameEngine() {
-        reset();
-    }
+    private List<GameEventListener> listeners = new ArrayList<>();
 
     public void addListener(GameEventListener listener) {
         listeners.add(listener);
@@ -27,18 +24,22 @@ public class GameEngine {
         setupEnemyShips();
     }
 
+    public GameEngine() {
+        reset();
+    }
+
     private void setupEnemyShips() {
         int[] sizes = { 5, 4, 3, 3, 2 };
-        String[] names = { "Battleship", "Destroyer", "PatrolBoat", "RescueShip", "Plane" };
-        java.util.Random random = new java.util.Random();
+        String[] shipNames = { "Tàu_size_5", "Tàu_size_4", "Tàu_size_3_1", "Tàu_size_3_2", "Tàu_size_2" };
+        Random random = new Random();
 
         for (int i = 0; i < sizes.length; i++) {
             boolean placed = false;
-            while (!placed) {
+            while (placed == false) {
                 int x = random.nextInt(Board.SIZE);
                 int y = random.nextInt(Board.SIZE);
                 boolean vertical = random.nextBoolean();
-                placed = enemyBoard.placeShip(new Ship(names[i], sizes[i], vertical), x, y);
+                placed = enemyBoard.placeShip(new Ship(shipNames[i], sizes[i], vertical), x, y);
             }
         }
     }
@@ -51,19 +52,23 @@ public class GameEngine {
             Ship ship = board.getShipAt(x, y);
             if (ship != null) {
                 ship.hit();
-                if (ship.isSunk()) {
-                    markShipAsSunk(board, ship);
-                    listeners.forEach(l -> l.onShipSunk(board, ship));
-                }
             }
             hit = true;
         } else {
             board.setCellState(x, y, CellState.MISS);
             hit = false;
         }
-        
+
         boolean finalHit = hit;
         listeners.forEach(l -> l.onShotProcessed(board, x, y, finalHit));
+
+        if (hit == true) {
+            Ship ship = board.getShipAt(x, y);
+            if (ship != null && ship.isSunk() == true) {
+                markShipAsSunk(board, ship);
+                listeners.forEach(l -> l.onShipSunk(board, ship));
+            }
+        }
         return hit;
     }
 
@@ -83,13 +88,28 @@ public class GameEngine {
     }
 
     // Getters and Setters
-    public Board getPlayerBoard() { return playerBoard; }
-    public Board getEnemyBoard() { return enemyBoard; }
-    public boolean isPlayerTurn() { return playerTurn; }
-    public void setPlayerTurn(boolean playerTurn) { 
-        this.playerTurn = playerTurn; 
+    public Board getPlayerBoard() {
+        return playerBoard;
+    }
+
+    public Board getEnemyBoard() {
+        return enemyBoard;
+    }
+
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(boolean playerTurn) {
+        this.playerTurn = playerTurn;
         listeners.forEach(l -> l.onTurnChanged(playerTurn));
     }
-    public boolean isGameOver() { return gameOver; }
-    public void setGameOver(boolean gameOver) { this.gameOver = gameOver; }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
 }

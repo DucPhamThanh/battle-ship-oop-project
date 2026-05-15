@@ -16,16 +16,12 @@
             <Image url="@assets/menu_bg.png" />
          </image>
       </ImageView>
-      <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: rgba(15, 23, 42, 0.7); -fx-background-radius: 20;">
+      <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #0f172ab3; -fx-background-radius: 20;">
          <StackPane.margin>
             <Insets bottom="50.0" left="100.0" right="100.0" top="50.0" />
          </StackPane.margin>
          <children>
-            <Label styleClass="menu-title" text="HƯỚNG DẪN CHƠI">
-               <font>
-                  <Font name="Impact" size="48.0" />
-               </font>
-            </Label>
+            <Label styleClass="menu-title" text="HƯỚNG DẪN CHƠI" />
             <VBox spacing="15.0" alignment="TOP_LEFT">
                <padding>
                   <Insets left="50.0" right="50.0" top="20.0" bottom="20.0"/>

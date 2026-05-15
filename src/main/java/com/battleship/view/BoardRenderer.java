@@ -27,7 +27,7 @@ public class BoardRenderer {
     public void setOnCellHover(BiConsumer<Integer, Integer> onCellHover) {
         this.onCellHover = onCellHover;
     }
-    
+
     public void setOnMouseExited(Runnable onMouseExited) {
         this.onMouseExited = onMouseExited;
     }
@@ -42,15 +42,18 @@ public class BoardRenderer {
 
                 final int fx = x, fy = y;
                 cell.setOnMouseClicked(e -> {
-                    if (onCellClick != null) onCellClick.accept(fx, fy);
+                    if (onCellClick != null)
+                        onCellClick.accept(fx, fy);
                 });
                 cell.setOnMouseEntered(e -> {
-                    if (onCellHover != null) onCellHover.accept(fx, fy);
+                    if (onCellHover != null)
+                        onCellHover.accept(fx, fy);
                 });
                 cell.setOnMouseExited(e -> {
-                    if (onMouseExited != null) onMouseExited.run();
+                    if (onMouseExited != null)
+                        onMouseExited.run();
                 });
-                
+
                 gridUI.add(cell, fx, fy);
             }
         }
@@ -73,39 +76,33 @@ public class BoardRenderer {
     }
 
     private void updateCellVisual(StackPane cell, CellState state, Board board, int x, int y) {
-        // 1. Clear previous classes and reset rotation
-        cell.getStyleClass().removeAll("cell-water", "cell-ship", "cell-hit", "cell-miss", "cell-sunk",
-                "ship-battleship", "ship-destroyer", "ship-patrolboat", "ship-rescueship", "ship-plane",
-                "ship-horizontal", "ship-vertical", "cell-placement-selected");
-        cell.getStyleClass().removeIf(s -> s.startsWith("ship-part") || s.startsWith("ship-size"));
+        cell.getStyleClass().removeIf(s -> s.startsWith("ship-") || s.startsWith("cell-"));
         cell.setRotate(0);
 
-        // 2. Render Ship Layer (if visible or already hit/sunk)
         Ship ship = board.getShipAt(x, y);
         boolean shipVisible = ship != null && (showShips || state == CellState.HIT || state == CellState.SUNK);
 
         if (shipVisible) {
-            cell.getStyleClass().add("ship-" + ship.getName().toLowerCase());
-            cell.setRotate(ship.isVertical() ? 0 : -90);
-            
-            List<int[]> positions = ship.getPositions();
-            for (int i = 0; i < positions.size(); i++) {
-                if (positions.get(i)[0] == x && positions.get(i)[1] == y) {
-                    cell.getStyleClass().add("ship-part-" + i);
-                    cell.getStyleClass().add("ship-size-" + ship.getSize());
-                    break;
-                }
-            }
+            String shipClass = ship.getName().toLowerCase().replace("tàu_", "").replace("_", "-");
+            cell.getStyleClass().add("ship-" + shipClass);
+            cell.getStyleClass().add(ship.isVertical() ? "ship-vertical" : "ship-horizontal");
         } else {
             cell.getStyleClass().add("cell-water");
         }
 
         // 3. Render Status Indicators (Hit/Miss/Sunk)
         switch (state) {
-            case HIT: cell.getStyleClass().add("cell-hit"); break;
-            case MISS: cell.getStyleClass().add("cell-miss"); break;
-            case SUNK: cell.getStyleClass().add("cell-sunk"); break;
-            default: break;
+            case HIT:
+                cell.getStyleClass().add("cell-hit");
+                break;
+            case MISS:
+                cell.getStyleClass().add("cell-miss");
+                break;
+            case SUNK:
+                cell.getStyleClass().add("cell-sunk");
+                break;
+            default:
+                break;
         }
     }
 }

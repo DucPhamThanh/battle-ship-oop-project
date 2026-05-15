@@ -23,9 +23,11 @@
                </font>
             </Label>
             <Label styleClass="menu-subtitle" text="HẢI CHIẾN TÀN KHỐC" />
-            <VBox alignment="CENTER" maxWidth="300.0" spacing="20.0">
+            <VBox alignment="CENTER" maxWidth="350.0" spacing="20.0">
                <children>
-                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartGame" styleClass="menu-button" text="BẮT ĐẦU CHIẾN ĐẤU" />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartEasy" styleClass="menu-button" text="CHẾ ĐỘ DỄ " />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartMedium" styleClass="menu-button" text="CHẾ ĐỘ TRUNG BÌNH" />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartHard" styleClass="menu-button" text="CHẾ ĐỘ KHÓ" />
                   <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onShowInstructions" styleClass="menu-button-alt" text="HƯỚNG DẪN" />
                </children>
             </VBox>

@@ -1,7 +1,14 @@
+/* ============================================================
+   GLOBAL & ROOT STYLES
+   ============================================================ */
 .root-pane {
     -fx-background-color: linear-gradient(to bottom right, #0f172a, #1e293b);
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
 }
 
+/* ============================================================
+   GAME LAYOUT & LABELS
+   ============================================================ */
 .title-label {
     -fx-text-fill: #38bdf8;
     -fx-effect: dropshadow(three-pass-box, rgba(56, 189, 248, 0.4), 10, 0, 0, 0);
@@ -13,12 +20,27 @@
     -fx-font-size: 14px;
 }
 
+.count-label {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.status-label {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
 .game-board {
     -fx-background-color: #334155;
     -fx-padding: 2;
     -fx-background-radius: 4;
 }
 
+/* ============================================================
+   CELL STYLES (Water, Ship, Hit, Miss)
+   ============================================================ */
 .cell {
     -fx-min-width: 30px;
     -fx-min-height: 30px;
@@ -31,6 +53,7 @@
 .cell-water {
     -fx-background-color: #1e293b;
 }
+
 .cell-water:hover {
     -fx-background-color: #334155;
 }
@@ -56,7 +79,7 @@
 }
 
 .cell-hit {
-    -fx-background-color: #ef4444;
+    -fx-background-color: rgba(239, 68, 68, 0.4);
     -fx-background-image: url("https://img.icons8.com/ios-filled/50/ffffff/fire-element.png");
     -fx-background-size: 20px;
     -fx-background-repeat: no-repeat;
@@ -64,65 +87,46 @@
     -fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.6), 10, 0, 0, 0);
 }
 
-.count-label {
-    -fx-text-fill: #38bdf8;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
 .cell-sunk {
-    -fx-background-color: #7f1d1d, linear-gradient(to bottom right, transparent 45%, rgba(255,255,255,0.8) 45%, rgba(255,255,255,0.8) 55%, transparent 55%);
+    -fx-background-color: #e01313b3;
     -fx-background-image: url("https://img.icons8.com/ios-filled/50/ffffff/fire-element.png");
     -fx-background-size: 20px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-effect: dropshadow(three-pass-box, rgba(127, 29, 29, 0.8), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, #7f1d1dcc, 10, 0, 0, 0);
 }
 
-/* Ship Images and Positioning */
-.ship-carrier, .ship-battleship, .ship-cruiser, .ship-submarine, .ship-destroyer {
-    -fx-background-repeat: no-repeat;
-    -fx-background-color: transparent;
+/* ============================================================
+   SHIP COLORS
+   ============================================================ */
+.ship-size-5 { 
+    -fx-background-color: linear-gradient(to bottom right, #2563eb, #1e40af); 
+    -fx-border-color: #60a5fa; 
+}
+.ship-size-4 { 
+    -fx-background-color: linear-gradient(to bottom right, #7c3aed, #5b21b6); 
+    -fx-border-color: #a78bfa; 
+}
+.ship-size-3-1 { 
+    -fx-background-color: linear-gradient(to bottom right, #059669, #064e3b); 
+    -fx-border-color: #34d399; 
+}
+.ship-size-3-2 { 
+    -fx-background-color: linear-gradient(to bottom right, #0891b2, #164e63); 
+    -fx-border-color: #22d3ee; 
+}
+.ship-size-2 { 
+    -fx-background-color: linear-gradient(to bottom right, #ea580c, #9a3412); 
+    -fx-border-color: #fb923c; 
 }
 
-.ship-battleship { -fx-background-image: url("assets/battleship.png"); }
-.ship-destroyer { -fx-background-image: url("assets/destroyer.png"); }
-.ship-patrolboat { -fx-background-image: url("assets/patrol.png"); }
-.ship-rescueship { -fx-background-image: url("assets/rescue.png"); }
-.ship-plane { -fx-background-image: url("assets/plane.png"); }
-
-/* Background sizing based on ship size (Always vertical in local cell space) */
-.ship-size-5 { -fx-background-size: 100% 500%; }
-.ship-size-4 { -fx-background-size: 100% 400%; }
-.ship-size-3 { -fx-background-size: 100% 300%; }
-.ship-size-2 { -fx-background-size: 100% 200%; }
-
-/* Positioning bow (part 0) at the top of the cell's local space */
-.ship-part-0 { -fx-background-position: center 0%; }
-.ship-part-1 { -fx-background-position: center 25%; } /* Default for size 5 */
-.ship-part-2 { -fx-background-position: center 50%; } /* Default for size 5 */
-.ship-part-3 { -fx-background-position: center 75%; } /* Default for size 5 */
-.ship-part-4 { -fx-background-position: center 100%; }
-
-/* Refined positioning for different sizes */
-.ship-size-4 .ship-part-1 { -fx-background-position: center 33.33%; }
-.ship-size-4 .ship-part-2 { -fx-background-position: center 66.66%; }
-.ship-size-4 .ship-part-3 { -fx-background-position: center 100%; }
-
-.ship-size-3 .ship-part-1 { -fx-background-position: center 50%; }
-.ship-size-3 .ship-part-2 { -fx-background-position: center 100%; }
-
-.ship-size-2 .ship-part-1 { -fx-background-position: center 100%; }
-
-
-
-
-.status-label {
-    -fx-text-fill: white;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
+.ship-horizontal, .ship-vertical {
+    -fx-border-width: 1;
 }
 
+/* ============================================================
+   UI CONTROLS & BUTTONS
+   ============================================================ */
 .restart-button {
     -fx-background-color: #0ea5e9;
     -fx-text-fill: white;
@@ -131,15 +135,36 @@
     -fx-background-radius: 8;
     -fx-cursor: hand;
 }
+
 .restart-button:hover {
     -fx-background-color: #0284c7;
 }
 
-/* Menu Styles */
+.restart-button-alt {
+    -fx-background-color: #1e293bcc;
+    -fx-text-fill: #38bdf8;
+    -fx-border-color: #38bdf8;
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+
+.restart-button-alt:hover {
+    -fx-background-color: #38bdf8;
+    -fx-text-fill: #1e293b;
+}
+
+/* ============================================================
+   MAIN MENU STYLES
+   ============================================================ */
 .menu-title {
     -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box, rgba(56, 189, 248, 0.8), 20, 0, 0, 0);
     -fx-font-weight: bold;
+    -fx-font-size: 48px;
 }
 
 .menu-subtitle {
@@ -167,7 +192,7 @@
 }
 
 .menu-button-alt {
-    -fx-background-color: rgba(30, 41, 59, 0.8);
+    -fx-background-color: #1e293bcc;
     -fx-text-fill: #38bdf8;
     -fx-border-color: #38bdf8;
     -fx-border-width: 2;
@@ -186,6 +211,9 @@
     -fx-scale-y: 1.05;
 }
 
+/* ============================================================
+   INSTRUCTIONS & DIALOGS
+   ============================================================ */
 .instruction-text {
     -fx-text-fill: white;
     -fx-font-size: 18px;
@@ -196,9 +224,11 @@
 .instruction-dialog .dialog-pane {
     -fx-background-color: #1e293b;
 }
+
 .instruction-dialog .label {
     -fx-text-fill: white;
 }
+
 .instruction-dialog .button {
     -fx-background-color: #0ea5e9;
     -fx-text-fill: white;

@@ -18,6 +18,27 @@ public class Board {
         ships = new ArrayList<>();
     }
 
+    private boolean canPlaceShip(Ship ship, int x, int y) { // xác định nơi có thể đặt tàu
+        int size = ship.getSize();
+
+        if (ship.isVertical() == true) {
+            if (y + size > SIZE)
+                return false;
+            for (int i = y; i < y + size; i++) {
+                if (grid[x][i] != CellState.WATER)
+                    return false;
+            }
+        } else {
+            if (x + size > SIZE)
+                return false;
+            for (int i = x; i < x + size; i++) {
+                if (grid[i][y] != CellState.WATER)
+                    return false;
+            }
+        }
+        return true;
+    }
+
     public boolean placeShip(Ship ship, int x, int y) {
         if (canPlaceShip(ship, x, y)) {
             int size = ship.getSize();
@@ -38,31 +59,7 @@ public class Board {
         return false;
     }
 
-    private boolean canPlaceShip(Ship ship, int x, int y) {
-        int size = ship.getSize();
-
-        if (ship.isVertical()) {
-            if (y + size > SIZE) return false;
-            for (int i = y; i < y + size; i++) {
-                if (grid[x][i] != CellState.WATER) return false;
-            }
-        } else {
-            if (x + size > SIZE) return false;
-            for (int i = x; i < x + size; i++) {
-                if (grid[i][y] != CellState.WATER) return false;
-            }
-        }
-        return true;
-    }
-
-    public CellState getCellState(int x, int y) {
-        return grid[x][y];
-    }
-
-    public void setCellState(int x, int y, CellState state) {
-        grid[x][y] = state;
-    }
-
+    // Kiểm tra ô x,y có tàu không?
     public Ship getShipAt(int x, int y) {
         for (Ship ship : ships) {
             for (int[] pos : ship.getPositions()) {
@@ -77,7 +74,16 @@ public class Board {
     public boolean isAllSunk() {
         return ships.stream().allMatch(Ship::isSunk);
     }
-    
+
+    // Getter & Setter
+    public CellState getCellState(int x, int y) {
+        return grid[x][y];
+    }
+
+    public void setCellState(int x, int y, CellState state) {
+        grid[x][y] = state;
+    }
+
     public List<Ship> getShips() {
         return ships;
     }
