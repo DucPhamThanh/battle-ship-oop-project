@@ -47,12 +47,12 @@ Mở Terminal (Mac/Linux) hoặc Command Prompt/Git Bash (Windows), chọn thư 
 git clone https://github.com/DucPhamThanh/battle-ship-oop-project.git
 ```
 
-### Bước 2: Di chuyển vào thư mục gốc và chuyển nhánh
+### Bước 2: Di chuyển vào thư mục gốc
 ```bash
 cd battle-ship-oop-project
-git checkout feature
+
 ```
-*Lưu ý: Các tính năng mới nhất hiện đang nằm ở nhánh `feature`.*
+
 
 ### Bước 3: Build và Chạy ứng dụng
 
