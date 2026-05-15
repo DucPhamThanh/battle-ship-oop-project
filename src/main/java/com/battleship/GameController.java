@@ -12,7 +12,6 @@ import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import java.util.List;
@@ -39,6 +38,10 @@ public class GameController implements GameEventListener {
 
     private boolean placementMode = true;
     private static final double BOT_DELAY_SECONDS = 2.0;
+
+    public void setDifficulty(BotAI.Difficulty difficulty) {
+        botAI.setDifficulty(difficulty);
+    }
 
     @FXML
     public void initialize() {
@@ -125,26 +128,29 @@ public class GameController implements GameEventListener {
         if (!hit) {
             updateStatus("Trượt rồi. Lượt của Bot...");
             engine.setPlayerTurn(false);
-            scheduleBotMove();
-        } else {
+            delayBotMove();
+        if (hit) {
             if (engine.getEnemyBoard().isAllSunk()) {
                 engine.endGame("BẠN ĐÃ THẮNG!");
             }
         }
     }
 
-    private void scheduleBotMove() {
+    private void delayBotMove() {
         PauseTransition pause = new PauseTransition(Duration.seconds(BOT_DELAY_SECONDS));
         pause.setOnFinished(e -> botMove());
         pause.play();
     }
+
+    private int secondChange = 0;
 
     private void botMove() {
         if (engine.isGameOver())
             return;
 
         int[] move = botAI.calculateNextMove();
-        int x = move[0], y = move[1];
+        int x = move[0];
+        int y = move[1];
         boolean hit = engine.processShot(engine.getPlayerBoard(), x, y);
 
         if (hit) {
@@ -157,11 +163,19 @@ public class GameController implements GameEventListener {
             if (engine.getPlayerBoard().isAllSunk()) {
                 engine.endGame("BOT ĐÃ THẮNG!");
             } else {
-                scheduleBotMove();
+                delayBotMove();
             }
         } else {
-            engine.setPlayerTurn(true);
-            updateStatus("Lượt của bạn!");
+            // Logic cho chế độ HARD: Được bắn 2 lượt (cho phép trượt 1 lần)
+            if (botAI.getDifficulty() == BotAI.Difficulty.HARD && secondChange < 1) {
+                secondChange++;
+                updateStatus("Bot trượt! Còn 1 lượt...");
+                delayBotMove();
+            } else {
+                secondChange = 0; // Reset cho lượt sau
+                engine.setPlayerTurn(true);
+                updateStatus("Lượt của bạn!");
+            }
         }
     }
 
@@ -169,7 +183,6 @@ public class GameController implements GameEventListener {
         statusLabel.setText(message);
     }
 
-    // GameEventListener Implementation
     @Override
     public void onShotProcessed(Board board, int x, int y, boolean hit) {
         if (board == engine.getPlayerBoard()) {
@@ -177,7 +190,7 @@ public class GameController implements GameEventListener {
         } else {
             enemyRenderer.refresh(board);
         }
-        
+
         if (hit) {
             String shooter = (board == engine.getEnemyBoard()) ? "Bạn" : "Bot";
             updateStatus(shooter + " đã bắn trúng!");
@@ -187,15 +200,20 @@ public class GameController implements GameEventListener {
     @Override
     public void onShipSunk(Board board, Ship ship) {
         updateShipCounters();
-        String victim = (board == engine.getEnemyBoard()) ? "Bot" : "bạn";
-        updateStatus("BẠN ĐÃ ĐÁNH CHÌM TÀU " + ship.getName().toUpperCase() + " CỦA " + victim.toUpperCase() + "!");
+        if (board == engine.getEnemyBoard()) {
+            updateStatus("BẠN ĐÃ ĐÁNH CHÌM TÀU " + ship.getName().toUpperCase() + "! " +
+                    "Mời tiếp tục.");
+        } else {
+            updateStatus("Tàu " + ship.getName().toUpperCase() + " của bạn đã bị đánh chìm!");
+        }
     }
 
     @Override
     public void onTurnChanged(boolean isPlayerTurn) {
-        // Thông báo lượt chơi
-        if (isPlayerTurn) updateStatus("Lượt của bạn!");
-        else updateStatus("Lượt của Bot...");
+        if (isPlayerTurn)
+            updateStatus("Lượt của bạn!");
+        else
+            updateStatus("Lượt của Bot...");
     }
 
     @Override
@@ -208,36 +226,6 @@ public class GameController implements GameEventListener {
         updateStatus(message);
     }
 
-    private void refreshBoardUI(GridPane gridUI, Board board, boolean showShips) {
-        gridUI.getChildren().forEach(node -> {
-            Integer nx = GridPane.getColumnIndex(node), ny = GridPane.getRowIndex(node);
-            if (nx != null && ny != null) {
-                updateCellVisual((StackPane) node, board.getCellState(nx, ny), showShips, board, nx, ny);
-                if (showShips && placementManager.isAlreadySelected(nx, ny)) {
-                    node.getStyleClass().add("cell-placement-selected");
-                }
-            }
-        });
-    }
-
-    private void updateCellVisual(StackPane cell, CellState state, boolean showShips, Board board, int x, int y) {
-        cell.getStyleClass().removeAll("cell-water", "cell-ship", "cell-hit", "cell-miss", "cell-sunk",
-                "ship-carrier", "ship-battleship", "ship-cruiser", "ship-submarine", "ship-destroyer");
-
-        switch (state) {
-            case WATER: cell.getStyleClass().add("cell-water"); break;
-            case SHIP:
-                if (showShips) {
-                    Ship ship = board.getShipAt(x, y);
-                    cell.getStyleClass().add(ship != null ? "ship-" + ship.getName().toLowerCase() : "cell-ship");
-                } else cell.getStyleClass().add("cell-water");
-                break;
-            case HIT: cell.getStyleClass().add("cell-hit"); break;
-            case SUNK: cell.getStyleClass().add("cell-sunk"); break;
-            case MISS: cell.getStyleClass().add("cell-miss"); break;
-        }
-    }
-
     private void endGame(String message) {
         engine.setGameOver(true);
         statusLabel.setText("GAME OVER: " + message);
@@ -248,6 +236,12 @@ public class GameController implements GameEventListener {
         resetGame();
     }
 
-    public void handleKeyPressed(javafx.scene.input.KeyEvent event) {
+    @FXML
+    private void onBackToMenu(javafx.event.ActionEvent event) throws java.io.IOException {
+        javafx.stage.Stage stage = (javafx.stage.Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        javafx.fxml.FXMLLoader fxmlLoader = new javafx.fxml.FXMLLoader(App.class.getResource("menu-view.fxml"));
+        javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load(), 1000, 700);
+        stage.setScene(scene);
     }
+
 }

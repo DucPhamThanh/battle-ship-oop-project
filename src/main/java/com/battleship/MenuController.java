@@ -11,18 +11,34 @@ import javafx.scene.Node;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
+import com.battleship.logic.BotAI;
+
 
 public class MenuController {
 
     @FXML
-    private void onStartGame(ActionEvent event) throws IOException {
+    private void onStartEasy(ActionEvent event) throws IOException {
+        startGame(event, BotAI.Difficulty.EASY);
+    }
+
+    @FXML
+    private void onStartMedium(ActionEvent event) throws IOException {
+        startGame(event, BotAI.Difficulty.MEDIUM);
+    }
+
+    @FXML
+    private void onStartHard(ActionEvent event) throws IOException {
+        startGame(event, BotAI.Difficulty.HARD);
+    }
+
+    private void startGame(ActionEvent event, BotAI.Difficulty difficulty) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
-        
+
         GameController controller = fxmlLoader.getController();
-        scene.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, controller::handleKeyPressed);
-        
+        controller.setDifficulty(difficulty);
+
         stage.setScene(scene);
     }
 

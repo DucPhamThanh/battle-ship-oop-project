@@ -9,7 +9,7 @@ import java.util.List;
 public class PlacementManager {
     private int currentShipIndex = 0;
     private final int[] shipSizes = { 5, 4, 3, 3, 2 };
-    private final String[] shipNames = { "Battleship", "Destroyer", "PatrolBoat", "RescueShip", "Plane" };
+    private final String[] shipNames = { "Tàu_size_5", "Tàu_size_4", "Tàu_size_3_1", "Tàu_size_3_2", "Tàu_size_2" };
     private final List<int[]> currentSelection = new ArrayList<>();
 
     public void reset() {
@@ -59,11 +59,34 @@ public class PlacementManager {
     }
 
     // Getters
-    public int getCurrentShipIndex() { return currentShipIndex; }
-    public String getCurrentShipName() { return shipNames[currentShipIndex]; }
-    public int getCurrentShipSize() { return shipSizes[currentShipIndex]; }
-    public int getRemainingCells() { return shipSizes[currentShipIndex] - currentSelection.size(); }
-    public boolean allShipsPlaced() { return currentShipIndex >= shipSizes.length; }
-    public List<int[]> getCurrentSelection() { return currentSelection; }
-    public int getTotalShips() { return shipSizes.length; }
+    public int getCurrentShipIndex() {
+        return currentShipIndex;
+    }
+
+    public String getCurrentShipName() {
+        return shipNames[currentShipIndex];
+    }
+
+    public int getCurrentShipSize() {
+        return shipSizes[currentShipIndex];
+    }
+
+    public int getRemainingCells() {
+        return shipSizes[currentShipIndex] - currentSelection.size();
+    }
+
+    public boolean allShipsPlaced() {
+        if (currentShipIndex >= shipSizes.length)
+            return true;
+        else
+            return false;
+    }
+
+    public List<int[]> getCurrentSelection() {
+        return currentSelection;
+    }
+
+    public int getTotalShips() {
+        return shipSizes.length;
+    }
 }

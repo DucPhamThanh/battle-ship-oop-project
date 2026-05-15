@@ -19,7 +19,7 @@ public class Ship {
     }
 
     public void addPosition(int x, int y) {
-        positions.add(new int[]{x, y});
+        positions.add(new int[] { x, y });
     }
 
     public List<int[]> getPositions() {
@@ -27,7 +27,10 @@ public class Ship {
     }
 
     public boolean isSunk() {
-        return health <= 0;
+        if (health <= 0)
+            return true;
+        else
+            return false;
     }
 
     public void hit() {
