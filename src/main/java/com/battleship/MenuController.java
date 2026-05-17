@@ -2,10 +2,7 @@ package com.battleship;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
@@ -34,7 +31,7 @@ public class MenuController {
     private void startGame(ActionEvent event, BotAI.Difficulty difficulty) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 1100, 760);
 
         GameController controller = fxmlLoader.getController();
         controller.setDifficulty(difficulty);
@@ -46,7 +43,7 @@ public class MenuController {
     private void onShowInstructions(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("instructions-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 1100, 760);
         stage.setScene(scene);
     }
 
@@ -54,7 +51,7 @@ public class MenuController {
     private void onBackToMenu(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("menu-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 1100, 760);
         stage.setScene(scene);
     }
 }

@@ -8,13 +8,100 @@ import java.util.List;
 
 public class PlacementManager {
     private int currentShipIndex = 0;
-    private final int[] shipSizes = { 5, 4, 3, 3, 2 };
-    private final String[] shipNames = { "Tàu_size_5", "Tàu_size_4", "Tàu_size_3_1", "Tàu_size_3_2", "Tàu_size_2" };
+    private int[] shipSizes = GameRules.getShipSizes(BotAI.Difficulty.MEDIUM);
+    private String[] shipNames = GameRules.getShipNames(BotAI.Difficulty.MEDIUM);
     private final List<int[]> currentSelection = new ArrayList<>();
+    private boolean vertical = false;
+
+    public void configureForDifficulty(BotAI.Difficulty difficulty) {
+        shipSizes = GameRules.getShipSizes(difficulty);
+        shipNames = GameRules.getShipNames(difficulty);
+        reset();
+    }
 
     public void reset() {
         currentShipIndex = 0;
         currentSelection.clear();
+        vertical = false;
+    }
+
+    public void toggleOrientation() {
+        vertical = !vertical;
+        currentSelection.clear();
+    }
+
+    public boolean isVertical() {
+        return vertical;
+    }
+
+    public String getOrientationName() {
+        return vertical ? "dọc" : "ngang";
+    }
+
+    public List<int[]> getPreviewCells(int x, int y) {
+        List<int[]> cells = new ArrayList<>();
+        if (allShipsPlaced()) {
+            return cells;
+        }
+
+        int shipSize = getCurrentShipSize();
+        for (int i = 0; i < shipSize; i++) {
+            int nx = vertical ? x : x + i;
+            int ny = vertical ? y + i : y;
+            cells.add(new int[] { nx, ny });
+        }
+        return cells;
+    }
+
+    public boolean canPlaceCurrentShip(Board board, int x, int y) {
+        return areCellsPlaceable(board, getPreviewCells(x, y));
+    }
+
+    public Ship placeCurrentShip(Board board, int x, int y) {
+        if (!canPlaceCurrentShip(board, x, y)) {
+            return null;
+        }
+
+        Ship ship = new Ship(shipNames[currentShipIndex], shipSizes[currentShipIndex], vertical);
+        for (int[] pos : getPreviewCells(x, y)) {
+            board.setCellState(pos[0], pos[1], CellState.SHIP);
+            ship.addPosition(pos[0], pos[1]);
+        }
+        board.getShips().add(ship);
+        currentShipIndex++;
+        currentSelection.clear();
+        return ship;
+    }
+
+    public void autoPlaceRemainingShips(Board board) {
+        java.util.Random random = new java.util.Random();
+        while (!allShipsPlaced()) {
+            boolean placed = false;
+            while (!placed) {
+                vertical = random.nextBoolean();
+                int x = random.nextInt(board.getSize());
+                int y = random.nextInt(board.getSize());
+                placed = placeCurrentShip(board, x, y) != null;
+            }
+        }
+    }
+
+    public boolean areCellsPlaceable(Board board, List<int[]> cells) {
+        if (cells.isEmpty()) {
+            return false;
+        }
+
+        for (int[] cell : cells) {
+            int x = cell[0];
+            int y = cell[1];
+            if (x < 0 || x >= board.getSize() || y < 0 || y >= board.getSize()) {
+                return false;
+            }
+            if (board.getCellState(x, y) != CellState.WATER) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isValidNextCell(int x, int y, Board board) {

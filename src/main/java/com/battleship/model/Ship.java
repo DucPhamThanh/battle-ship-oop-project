@@ -37,6 +37,12 @@ public class Ship {
         health--;
     }
 
+    public void repair() {
+        if (health < size) {
+            health++;
+        }
+    }
+
     public String getName() {
         return name;
     }

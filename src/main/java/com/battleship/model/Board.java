@@ -4,14 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    public static final int SIZE = 10;
+    public static final int DEFAULT_SIZE = 10;
+    public static final int SIZE = DEFAULT_SIZE;
+    private final int size;
     private final CellState[][] grid;
     private final List<Ship> ships;
 
     public Board() {
-        grid = new CellState[SIZE][SIZE];
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
+        this(DEFAULT_SIZE);
+    }
+
+    public Board(int size) {
+        this.size = size;
+        grid = new CellState[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 grid[i][j] = CellState.WATER;
             }
         }
@@ -21,15 +28,19 @@ public class Board {
     private boolean canPlaceShip(Ship ship, int x, int y) { // xác định nơi có thể đặt tàu
         int size = ship.getSize();
 
+        if (x < 0 || x >= this.size || y < 0 || y >= this.size) {
+            return false;
+        }
+
         if (ship.isVertical() == true) {
-            if (y + size > SIZE)
+            if (y + size > this.size)
                 return false;
             for (int i = y; i < y + size; i++) {
                 if (grid[x][i] != CellState.WATER)
                     return false;
             }
         } else {
-            if (x + size > SIZE)
+            if (x + size > this.size)
                 return false;
             for (int i = x; i < x + size; i++) {
                 if (grid[i][y] != CellState.WATER)
@@ -86,5 +97,9 @@ public class Board {
 
     public List<Ship> getShips() {
         return ships;
+    }
+
+    public int getSize() {
+        return size;
     }
 }

@@ -8,9 +8,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.battleship.MenuController">
+<StackPane prefHeight="760.0" prefWidth="1100.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.battleship.MenuController">
    <children>
-      <ImageView fitHeight="700.0" fitWidth="1000.0" pickOnBounds="true">
+      <ImageView fitHeight="760.0" fitWidth="1100.0" pickOnBounds="true">
          <image>
             <Image url="@assets/menu_bg.png" />
          </image>
@@ -25,9 +25,9 @@
             <Label styleClass="menu-subtitle" text="HẢI CHIẾN TÀN KHỐC" />
             <VBox alignment="CENTER" maxWidth="350.0" spacing="20.0">
                <children>
-                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartEasy" styleClass="menu-button" text="CHẾ ĐỘ DỄ " />
-                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartMedium" styleClass="menu-button" text="CHẾ ĐỘ TRUNG BÌNH" />
-                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartHard" styleClass="menu-button" text="CHẾ ĐỘ KHÓ" />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartEasy" styleClass="menu-button" text="DỄ - MAP 8x8" />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartMedium" styleClass="menu-button" text="TRUNG BÌNH - MAP 10x10" />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onStartHard" styleClass="menu-button" text="KHÓ - MAP 12x12" />
                   <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onShowInstructions" styleClass="menu-button-alt" text="HƯỚNG DẪN" />
                </children>
             </VBox>

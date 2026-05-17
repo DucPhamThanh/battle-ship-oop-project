@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.geometry.Insets?>
 
-<StackPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.battleship.MenuController">
+<StackPane prefHeight="760.0" prefWidth="1100.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.battleship.MenuController">
    <children>
-      <ImageView fitHeight="700.0" fitWidth="1000.0" pickOnBounds="true">
+      <ImageView fitHeight="760.0" fitWidth="1100.0" pickOnBounds="true">
          <image>
             <Image url="@assets/menu_bg.png" />
          </image>
@@ -27,11 +27,14 @@
                   <Insets left="50.0" right="50.0" top="20.0" bottom="20.0"/>
                </padding>
                <children>
-                  <Label styleClass="instruction-text" text="1. Đặt tàu: Chọn các ô liên tiếp để đặt 5 loại tàu của bạn." wrapText="true" />
-                  <Label styleClass="instruction-text" text="2. Chiến đấu: Click vào bảng đối phương để bắn." wrapText="true" />
-                  <Label styleClass="instruction-text" text="3. Mục tiêu: Đánh chìm toàn bộ hạm đội địch trước khi địch tiêu diệt bạn." wrapText="true" />
-                  <Label styleClass="instruction-text" text="4. Màu sắc: Đỏ là trúng, Xanh đậm là trượt, Đỏ đậm là tàu đã chìm." wrapText="true" />
-                  <Label styleClass="instruction-text" text="5. Chiến thuật: Hãy quan sát kỹ các vị trí đã bắn để đoán hướng đi của tàu địch." wrapText="true" />
+                  <Label styleClass="instruction-text" text="1. Đặt tàu: Rê chuột để xem trước, click để đặt, xoay tàu khi cần." wrapText="true" />
+                  <Label styleClass="instruction-text" text="2. Auto đặt tàu: Có thể bấm nhiều lần để đổi đội hình, sau đó bấm XÁC NHẬN để bắt đầu." wrapText="true" />
+                  <Label styleClass="instruction-text" text="3. Chiến đấu: Click vào bảng đối phương để bắn. Bắn trúng thì được bắn tiếp cho đến khi trượt." wrapText="true" />
+                  <Label styleClass="instruction-text" text="4. Kỹ năng: Radar 3x3, Missile 2x2, Repair hồi 1 phần tàu, Chặn vùng bảo vệ 2 lượt bot. Mỗi kỹ năng dùng 1 lần/trận." wrapText="true" />
+                  <Label styleClass="instruction-text" text="5. Độ khó: Dễ 8x8, Trung bình 10x10 bot bắn 2 phát/lượt, Khó 12x12 bot săn tàu thông minh hơn." wrapText="true" />
+                  <Label styleClass="instruction-text" text="6. Mục tiêu: Đánh chìm toàn bộ hạm đội địch trước khi địch tiêu diệt bạn." wrapText="true" />
+                  <Label styleClass="instruction-text" text="7. Màu sắc: Đỏ là trúng, Xanh đậm là trượt, Đỏ đậm là tàu đã chìm." wrapText="true" />
+                  <Label styleClass="instruction-text" text="8. Chiến thuật: Hãy quan sát kỹ các vị trí đã bắn để đoán hướng đi của tàu địch." wrapText="true" />
                </children>
             </VBox>
             <Button mnemonicParsing="false" onAction="#onBackToMenu" styleClass="menu-button-alt" text="QUAY LẠI" />

@@ -2,7 +2,7 @@
    GLOBAL & ROOT STYLES
    ============================================================ */
 .root-pane {
-    -fx-background-color: linear-gradient(to bottom right, #0f172a, #1e293b);
+    -fx-background-color: linear-gradient(to bottom right, #08111f, #14313b 48%, #10251e);
     -fx-font-family: "Segoe UI", "Arial", sans-serif;
 }
 
@@ -10,8 +10,8 @@
    GAME LAYOUT & LABELS
    ============================================================ */
 .title-label {
-    -fx-text-fill: #38bdf8;
-    -fx-effect: dropshadow(three-pass-box, rgba(56, 189, 248, 0.4), 10, 0, 0, 0);
+    -fx-text-fill: linear-gradient(to right, #7dd3fc, #fef08a, #86efac);
+    -fx-effect: dropshadow(three-pass-box, rgba(125, 211, 252, 0.55), 18, 0.25, 0, 0);
 }
 
 .board-label {
@@ -27,15 +27,35 @@
 }
 
 .status-label {
-    -fx-text-fill: white;
+    -fx-text-fill: #f8fafc;
     -fx-font-size: 18px;
     -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(250, 204, 21, 0.32), 10, 0, 0, 0);
 }
 
 .game-board {
-    -fx-background-color: #334155;
+    -fx-background-color: linear-gradient(to bottom right, #475569, #0f766e);
     -fx-padding: 2;
     -fx-background-radius: 4;
+    -fx-effect: dropshadow(three-pass-box, rgba(45, 212, 191, 0.24), 18, 0, 0, 0);
+}
+
+.axis-label {
+    -fx-alignment: center;
+    -fx-text-fill: #e0f2fe;
+    -fx-font-size: 12px;
+    -fx-font-weight: 900;
+    -fx-background-color: rgba(15, 23, 42, 0.72);
+    -fx-background-radius: 2;
+}
+
+.battle-strip {
+    -fx-background-color: linear-gradient(to bottom right, rgba(14, 116, 144, 0.35), rgba(15, 23, 42, 0.92));
+    -fx-border-color: rgba(45, 212, 191, 0.35);
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: innershadow(three-pass-box, rgba(125, 211, 252, 0.25), 12, 0, 0, 0);
 }
 
 /* ============================================================
@@ -48,19 +68,35 @@
     -fx-max-height: 30px;
     -fx-background-radius: 2;
     -fx-cursor: hand;
+    -fx-border-color: rgba(148, 163, 184, 0.16);
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
 }
 
 .cell-water {
-    -fx-background-color: #1e293b;
+    -fx-background-color: linear-gradient(to bottom right, #0f2535, #123d51);
 }
 
 .cell-water:hover {
-    -fx-background-color: #334155;
+    -fx-background-color: linear-gradient(to bottom right, #145369, #1d7b8a);
+    -fx-effect: dropshadow(three-pass-box, rgba(125, 211, 252, 0.45), 9, 0, 0, 0);
 }
 
 .cell-placement-selected {
     -fx-background-color: #fbbf24;
     -fx-border-color: white;
+    -fx-border-width: 2;
+}
+
+.cell-placement-valid {
+    -fx-background-color: rgba(34, 197, 94, 0.85);
+    -fx-border-color: #bbf7d0;
+    -fx-border-width: 2;
+}
+
+.cell-placement-invalid {
+    -fx-background-color: rgba(239, 68, 68, 0.85);
+    -fx-border-color: #fecaca;
     -fx-border-width: 2;
 }
 
@@ -71,29 +107,71 @@
 }
 
 .cell-miss {
-    -fx-background-color: #1e293b;
-    -fx-background-image: url("https://img.icons8.com/ios-filled/50/ffffff/delete-sign.png");
-    -fx-background-size: 15px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
+    -fx-background-color: linear-gradient(to bottom right, #0e7490, #0f172a);
+    -fx-effect: innershadow(three-pass-box, rgba(125, 211, 252, 0.55), 8, 0, 0, 0);
 }
 
 .cell-hit {
     -fx-background-color: rgba(239, 68, 68, 0.4);
-    -fx-background-image: url("https://img.icons8.com/ios-filled/50/ffffff/fire-element.png");
-    -fx-background-size: 20px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.6), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(248, 113, 113, 0.78), 13, 0, 0, 0);
 }
 
 .cell-sunk {
     -fx-background-color: #e01313b3;
-    -fx-background-image: url("https://img.icons8.com/ios-filled/50/ffffff/fire-element.png");
-    -fx-background-size: 20px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-effect: dropshadow(three-pass-box, #7f1d1dcc, 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, #fca5a5cc, 15, 0, 0, 0);
+}
+
+.cell-shielded {
+    -fx-border-color: #facc15;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(three-pass-box, rgba(250, 204, 21, 0.72), 10, 0, 0, 0);
+}
+
+.shot-marker {
+    -fx-font-weight: 900;
+    -fx-font-size: 17px;
+}
+
+.miss-marker {
+    -fx-text-fill: #bae6fd;
+    -fx-effect: dropshadow(three-pass-box, rgba(186, 230, 253, 0.8), 6, 0, 0, 0);
+}
+
+.hit-marker {
+    -fx-text-fill: #fef08a;
+    -fx-font-size: 19px;
+    -fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.95), 9, 0, 0, 0);
+}
+
+.sunk-marker {
+    -fx-text-fill: #fee2e2;
+    -fx-font-size: 18px;
+    -fx-effect: dropshadow(three-pass-box, rgba(127, 29, 29, 1), 8, 0, 0, 0);
+}
+
+.floating-shot-text {
+    -fx-font-size: 10px;
+    -fx-font-weight: 900;
+    -fx-padding: 1 3;
+    -fx-background-radius: 4;
+}
+
+.floating-hit {
+    -fx-text-fill: #fff7ed;
+    -fx-background-color: rgba(220, 38, 38, 0.72);
+    -fx-effect: dropshadow(three-pass-box, rgba(248, 113, 113, 0.9), 8, 0, 0, 0);
+}
+
+.floating-miss {
+    -fx-text-fill: #e0f2fe;
+    -fx-background-color: rgba(14, 116, 144, 0.72);
+    -fx-effect: dropshadow(three-pass-box, rgba(125, 211, 252, 0.8), 7, 0, 0, 0);
+}
+
+.floating-sunk {
+    -fx-text-fill: #fef2f2;
+    -fx-background-color: rgba(127, 29, 29, 0.85);
+    -fx-effect: dropshadow(three-pass-box, rgba(252, 165, 165, 0.95), 10, 0, 0, 0);
 }
 
 /* ============================================================
@@ -131,13 +209,43 @@
     -fx-background-color: #0ea5e9;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-padding: 10 20;
+    -fx-padding: 8 12;
     -fx-background-radius: 8;
     -fx-cursor: hand;
 }
 
 .restart-button:hover {
     -fx-background-color: #0284c7;
+}
+
+.tool-button {
+    -fx-background-color: #334155;
+    -fx-text-fill: #e2e8f0;
+    -fx-border-color: #64748b;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-padding: 8 10;
+    -fx-cursor: hand;
+}
+
+.tool-button:hover {
+    -fx-background-color: #475569;
+    -fx-border-color: #38bdf8;
+}
+
+.confirm-button {
+    -fx-background-color: #16a34a;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.confirm-button:hover {
+    -fx-background-color: #22c55e;
 }
 
 .restart-button-alt {
@@ -148,7 +256,7 @@
     -fx-border-radius: 8;
     -fx-background-radius: 8;
     -fx-font-weight: bold;
-    -fx-padding: 10 20;
+    -fx-padding: 8 12;
     -fx-cursor: hand;
 }
 
@@ -209,6 +317,28 @@
     -fx-text-fill: #1e293b;
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
+}
+
+.battle-log {
+    -fx-control-inner-background: #07111d;
+    -fx-background-color: #07111d;
+    -fx-text-fill: #dbeafe;
+    -fx-highlight-fill: #0ea5e9;
+    -fx-highlight-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-border-color: #2dd4bf66;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.battle-log .content {
+    -fx-background-color: #07111d;
+}
+
+.stat-label {
+    -fx-text-fill: #cbd5e1;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
 }
 
 /* ============================================================

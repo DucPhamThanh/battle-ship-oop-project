@@ -86,6 +86,7 @@
           <version>0.0.8</version>
           <configuration>
             <mainClass>com.battleship.App</mainClass>
+            <executable>${java.home}/bin/java</executable>
           </configuration>
         </plugin>
       </plugins>
